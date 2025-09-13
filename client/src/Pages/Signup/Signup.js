@@ -1,20 +1,27 @@
-import React from "react";
+import React, {useState} from "react";
 import "./SignupStyles.css"
 
 const Signup = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+   
+  const handleSubmit =(e) =>{
+    e.preventDefault();
+    console.log(email, password);
+  }
   return (
     <div className="auth-container">
       <div className="auth-card">
         <h1>Signup</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="field">
             <label>Email:</label>
-            <input type="email" placeholder="Enter your email" />
+            <input type="email" placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} value={email}  />
           </div>
 
           <div className="field">
             <label>Password:</label>
-            <input type="password" placeholder="Enter your password" />
+            <input type="password" placeholder="Enter your password" onChange={(e) => setPassword(e.target.value)} value={password}  />
           </div>
 
           <button type="submit">Login</button>
