@@ -13,6 +13,10 @@ const workoutSchema = mongoose.Schema({
         type:Number,
         required:true,
     },
+    user_id:{
+        type:String,
+        require:true
+    }
 },{ timestamps:true });
 
 const Workout = new mongoose.model("Workout", workoutSchema);
