@@ -1,32 +1,37 @@
-import React from 'react';
+import React from "react";
 import "./NavbarStyle.css";
-import {Link} from "react-router-dom";
-import { useLogout } from '../../Hooks/useLogout';
-
+import { Link } from "react-router-dom";
+import { useLogout } from "../../Hooks/useLogout";
+import { useAuthContext } from "../../Hooks/useAuthContext";
 
 const Navbar = () => {
-  const {logout} = useLogout();
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
 
-  const handleClick =()=>{
+  const handleClick = () => {
     logout();
-  }
+  };
   return (
     <nav>
-        <Link to="/">
+      <Link to="/">
         <h1>WorkoutBuddy</h1>
-        </Link>
+      </Link>
 
-        <div>
+      {user && (
+        <div className="logout">
+          <span>{user.email}</span>
           <button onClick={handleClick}>Logout</button>
         </div>
+      )}
 
-        <div className='auth'>
-            <Link to="/signup">Sign Up</Link>
-            <Link to="/login">Login</Link>
+      {!user && (
+        <div className="auth">
+          <Link to="/signup">Sign Up</Link>
+          <Link to="/login">Login</Link>
         </div>
-      
+      )}
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
