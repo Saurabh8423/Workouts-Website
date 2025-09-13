@@ -1,10 +1,11 @@
 const express = require("express");
-
+const authUser = require("../middleware/userMiddleware")
 const router = express.Router();
 
 //Require controller*************
 const { getWorkouts, getWorkout, createWorkOut, editWorkout, deleteWorkout } = require("../controllers/workoutController")
 
+router.use(authUser);
 
 // Get entire records
 router.get("/", getWorkouts);
