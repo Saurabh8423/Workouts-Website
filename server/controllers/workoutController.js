@@ -43,7 +43,7 @@ const createWorkOut = async (req, res) => {
 const editWorkout = async (req, res) => {
     try {
         const id = req.params.id;
-        const workoutData = await workout.findByIdAndUpdate({ _id: id }, req.body, { new: true });
+        const workoutData = await Workout.findByIdAndUpdate({ _id: id }, req.body, { new: true });
         res.status(200).json(workoutData)
     } catch (err) {
         res.status(400).json({ error: err.message });
