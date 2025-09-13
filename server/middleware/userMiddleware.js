@@ -1,20 +1,20 @@
 const jwt = require("jsonwebtoken")
 const User = require("../models/userModel")
 
-const authUser = async (req, resizeBy, next)=>{
-    const {authorization} = req.headers;
+const authUser = async (req, res, next) => {
+    const { authorization } = req.headers;
 
-    if(!authorization){
-        return resizeBy.status(401).json({error:"Auth token required"})
+    if (!authorization) {
+        return res.status(401).json({ error: "Auth token required" })
     }
 
     const token = authorization.split(" ")[1];
-    try{
-        const {_id} = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = await User.findOne({_id}).select("_id");
+    try {
+        const { _id } = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = await User.findOne({ _id }).select("_id");
         next();
-    }catch(error){
-        resizeBy.status(401).json({error: "Request is not authorized!"});
+    } catch (error) {
+        resizeBy.status(401).json({ error: "Request is not authorized!" });
     }
 }
 

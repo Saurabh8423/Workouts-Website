@@ -3,8 +3,10 @@ import { useContext } from "react";
 import axios from "axios";
 import "./FormStyles.css";
 import { Data } from "../../Context/WorkoutContext";
+import { useAuthContext } from "../../Hooks/useAuthContext";
 
 const Form = () => {
+  const { user } = useAuthContext()
   const {
     workouts,
     setWorkouts,
@@ -29,7 +31,12 @@ const Form = () => {
     e.preventDefault();
     const response = await axios.post(
       "http://localhost:4000/api/workouts",
-      form
+      form,
+      {
+        headers: {
+          "Authorization": `Bearer ${user.token}`,
+        },
+      }
     );
     setWorkouts([...workouts, response.data]);
     setForm({
@@ -60,7 +67,13 @@ const Form = () => {
       title,
       reps,
       load,
-    });
+    },
+      {
+        headers: {
+          "Authorization": `Bearer ${user.token}`
+        }
+      }
+    );
     getWorkouts();
 
     setUpdateForm({

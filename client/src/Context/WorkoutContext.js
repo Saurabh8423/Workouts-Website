@@ -1,15 +1,22 @@
 import { createContext, useState, } from "react";
 import axios from "axios";
+import { useAuthContext } from "../Hooks/useAuthContext";
+
 export const Data = createContext();
 
-const WorkoutContext = ({ children }) => {
-  //GET REQUEST  STATE********************
 
+const WorkoutContext = ({ children }) => {
+  const { user } = useAuthContext()
+  //GET REQUEST  STATE********************
   const [workouts, setWorkouts] = useState(null);
 
   // Get Request Function**************
   const getWorkouts = async () => {
-    const response = await axios.get("http://localhost:4000/api/workouts");
+    const response = await axios.get("http://localhost:4000/api/workouts", {
+      headers: {
+        "Authorization": `Bearer ${user.token}`
+      }
+    });
     const data = response.data;
 
     setWorkouts(data);
@@ -22,13 +29,17 @@ const WorkoutContext = ({ children }) => {
     load: "",
   });
 
-   // DELETE REQUEST FUNCTION****************
+  // DELETE REQUEST FUNCTION****************
   const deleteWorkout = async (_id) => {
-    await axios.delete(`http://localhost:4000/api/workouts/${_id}`);
+    await axios.delete(`http://localhost:4000/api/workouts/${_id}`, {
+      headers: {
+        "Authorization": `Bearer ${user.token}`
+      }
+    });
     getWorkouts();
   };
 
-   // UPDATE REQUEST STATE*****************
+  // UPDATE REQUEST STATE*****************
   const [updateForm, setUpdateForm] = useState({
     _id: null,
     title: "",
@@ -49,7 +60,7 @@ const WorkoutContext = ({ children }) => {
 
 
   return (
-    <Data.Provider value={{ workouts,getWorkouts, setWorkouts, form, setForm, deleteWorkout, toggleUpdate , updateForm, setUpdateForm }}>
+    <Data.Provider value={{ workouts, getWorkouts, setWorkouts, form, setForm, deleteWorkout, toggleUpdate, updateForm, setUpdateForm }}>
       {
         children
       }
