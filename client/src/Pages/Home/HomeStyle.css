@@ -1,0 +1,19 @@
+.home-section{
+
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    justify-content:center;
+    align-items: flex-start;
+    gap: 40px;
+    max-width: 1200px;
+    margin: auto;
+    flex-wrap: wrap;
+}
+
+/* Responsive layout for small screens */
+@media (max-width: 900px) {
+  .home-section {
+    grid-template-columns: 1fr; /* stack vertically */
+  }
+}
