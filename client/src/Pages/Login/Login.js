@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import "./LoginStyles.css";
+import { useLogin } from "../../Hooks/useLogin";
 
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const {login, error}= useLogin();
    
-  const handleSubmit =(e) =>{
+  const handleSubmit = async(e) =>{
     e.preventDefault();
-    console.log(email, password);
-  }
+
+    await login(email, password);
+    setEmail("")
+    setPassword("")
+    // console.log(email, password);
+  };
 
   return (
     <div className="auth-container">
@@ -26,6 +33,7 @@ const Login = () => {
           </div>
 
           <button type="submit">Login</button>
+          {error && <p>{error}</p>}
         </form>
         <p className="switch-auth">
           Don’t have an account? <a href="/signup">Sign up</a>
